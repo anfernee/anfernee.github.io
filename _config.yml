@@ -13,11 +13,11 @@
 # you will see them accessed via {{ site.title }}, {{ site.email }}, and so on.
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
-title: Yongkun "Anfernee" Gui's blog
+title: Yongkun "anfernee" Gui's blog
 email: anfernee.gui@gmail.com
 description: >- # this means to ignore newlines until "baseurl:"
-  Software developer in VMware. Kubernetes, CNCF, Cloud Foundry, Cloud Native App.
-  Not GUI guy. Golden State Warriors Fan. AYSO referee. IoT VR hacker.
+  Software developer in Google. Ex-VMwarer. Kubernetes, CNCF, Cloud Foundry, Cloud Native App.
+  Everything in this blog only represents myself.
 baseurl: "/" # the subpath of your site, e.g. /blog
 url: "https://anfernee.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: anferneee
