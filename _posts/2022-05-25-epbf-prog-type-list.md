@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'ebpf: introduction to program and map'
+title: 'ebpf: Summary of program types'
 date: 2022-05-10
 categories: ebpf kernel program
 ---
