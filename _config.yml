@@ -10,6 +10,7 @@ description: >- # this means to ignore newlines until "baseurl:"
   Software developer in Google. Ex-VMwarer. Kubernetes, CNCF, Cloud Foundry, Cloud Native App.
   Everything in this blog only represents myself.
 baseurl: "/" # the subpath of your site, e.g. /blog
+permalink: /blogs/:year/:month/:day/:title:output_ext
 url: "https://anfernee.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: anferneee
 github_username:  anfernee
