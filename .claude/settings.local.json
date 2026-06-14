@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(bundle update *)",
+      "Bash(ruby --version)",
+      "Bash(gem --version)",
+      "Read(//home/anfernee/.rbenv/shims/**)",
+      "Read(//usr/local/bin/**)",
+      "Read(//usr/bin/**)",
+      "Bash(apt list *)",
+      "Bash(snap list *)"
+    ]
+  }
+}
