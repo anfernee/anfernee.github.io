@@ -8,7 +8,7 @@ source "https://rubygems.org"
 #
 # This will help ensure the proper Jekyll version is running.
 # Happy Jekylling!
-gem "jekyll", "~> 4.2.0"
+gem "jekyll", "~> 4.3"
 
 gem "minima", "~> 2.5"
 gem "webrick", "~> 1.7"
@@ -19,7 +19,7 @@ gem "webrick", "~> 1.7"
 
 # If you have any plugins, put them here!
 group :jekyll_plugins do
-  gem "jekyll-feed", "~> 0.13.0"
+  gem "jekyll-feed", "~> 0.15"
   gem "jekyll-data"
   gem 'jekyll-compose'
 
