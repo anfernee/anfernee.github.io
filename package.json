@@ -1,0 +1,27 @@
+{
+  "name": "app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "2048.js",
+  "directories": {
+    "example": "examples"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anfernee/anfernee.github.io.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/anfernee/anfernee.github.io/issues"
+  },
+  "homepage": "https://github.com/anfernee/anfernee.github.io#readme",
+  "devDependencies": {
+    "jest": "^30.4.2"
+  }
+}

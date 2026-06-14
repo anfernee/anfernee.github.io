@@ -409,5 +409,18 @@ class Game {
   }
 }
 
-const game = new Game();
-game.setup();
+if (typeof document !== "undefined") {
+  const game = new Game();
+  game.setup();
+}
+if (typeof module !== "undefined" && typeof module.exports !== "undefined") {
+  module.exports = {
+    Cell,
+    Tile,
+    Direction,
+    Grid,
+    Iteration,
+    EMPTY_TILE,
+    OUTBOUND
+  };
+}
