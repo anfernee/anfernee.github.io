@@ -314,7 +314,12 @@ class KeyboardManager {
 class Renderer {
   constructor(grid) {
     this.tile_container = document.querySelector(".tile-container");
+    this.message_container = document.querySelector(".game-message");
     this.grid = grid;
+  }
+
+  game_over() {
+    this.message_container.classList.add("game-over");
   }
 
   render() {
@@ -384,7 +389,7 @@ class Game {
     this.renderer.render();
     if (this.new_tile() == Game.GAME_OVER) {
       this.keyboard.remove("move");
-      // TODO: render game over
+      this.renderer.game_over();
     }
     this.renderer.render();
   }
