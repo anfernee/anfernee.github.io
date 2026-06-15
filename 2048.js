@@ -183,6 +183,19 @@ class Grid {
     return tiles
   }
 
+  moves_available() {
+    if (this.empty_tiles().length > 0) return true;
+    for (let i = 0; i < this.size; i++) {
+      for (let j = 0; j < this.size; j++) {
+        let t = this.grid[i][j];
+        if (!t) return true;
+        if (i < this.size - 1 && this.grid[i+1][j] && this.grid[i+1][j].value === t.value) return true;
+        if (j < this.size - 1 && this.grid[i][j+1] && this.grid[i][j+1].value === t.value) return true;
+      }
+    }
+    return false;
+  }
+
   iterations(dir) {
     let iters = [];
     for(let i = 0; i < this.size; i++) {
@@ -301,7 +314,7 @@ class KeyboardManager {
   }
 
   remove(event) {
-    this.events.delete(event);
+    delete this.events[event];
   }
 
   emit(event, data) {
@@ -391,7 +404,8 @@ class Game {
     let moved = this.grid.move(dir);
     if (!moved) return;
     this.renderer.render();
-    if (this.new_tile() == Game.GAME_OVER) {
+    this.new_tile();
+    if (!this.grid.moves_available()) {
       this.keyboard.remove("move");
       this.renderer.game_over();
     }
