@@ -40,6 +40,7 @@ class Tile {
     this.cell = new Cell(x, y);
     this.value = value;
     this.previous = null;
+    this.element = null;
   }
 
   update(x, y) {
@@ -169,6 +170,7 @@ class Grid {
     for (let i = 0; i < size; i++) {
       this.grid.push(Array(size).fill(null));
     }
+    this.removed_tiles = [];
   }
 
   empty_tiles() {
@@ -194,6 +196,7 @@ class Grid {
   move(dir) {
     let iters = this.iterations(dir);
     var moved = false;
+    var score = 0;
 
     iters.forEach(iter => {
       var cur = iter.next_valid(); // current tile
@@ -206,11 +209,19 @@ class Grid {
         if (cur.can_merge(next)) {
           let next_cur = next;
           cur.merge(next);
+          score += cur.value;
           this.unassign(next);
+          this.removed_tiles.push(next);
+          if (cur.cell.x != cell.x || cur.cell.y != cell.y) {
+            moved = true;
+          }
           this.assign(cur, cell);
           cur = next_cur;
           moved = true;
         } else {
+          if (cur.cell.x != cell.x || cur.cell.y != cell.y) {
+            moved = true;
+          }
           this.assign(cur, cell);
           cur = next;
         }
@@ -219,7 +230,30 @@ class Grid {
       }
     });
 
-    return moved;
+    return { moved: moved, score: score };
+  }
+
+  has_moves() {
+    if (this.empty_tiles().length > 0) return true;
+    for (let i = 0; i < this.size; i++) {
+      for (let j = 0; j < this.size; j++) {
+        let tile = this.grid[i][j];
+        if (tile) {
+          let dirs = [Direction.Up, Direction.Down, Direction.Left, Direction.Right];
+          for (let dir of dirs) {
+            let next_cell = tile.cell.next(dir);
+            if (next_cell) {
+              // Only check if it's within bounds. Since size is undefined in Tile constructor, we check using grid length
+              if (next_cell.x >= 0 && next_cell.x < this.size && next_cell.y >= 0 && next_cell.y < this.size) {
+                let next_tile = this.grid[next_cell.x][next_cell.y];
+                if (next_tile && tile.value == next_tile.value) return true;
+              }
+            }
+          }
+        }
+      }
+    }
+    return false;
   }
 
   last_cell(index, dir) {
@@ -312,16 +346,22 @@ class KeyboardManager {
 }
 
 class Renderer {
-  constructor(grid) {
+  constructor(game) {
     this.tile_container = document.querySelector(".tile-container");
-    this.grid = grid;
+    this.game = game;
+    this.grid = game.grid;
   }
 
   render() {
     var self = this;
 
     window.requestAnimationFrame(function() {
-      self.clear_container(self.tile_container);
+      document.querySelector(".score-container").textContent = self.game.score;
+
+      if (self.game.over) {
+        document.querySelector(".game-container").classList.add("game-over");
+        document.querySelector(".game-message p").textContent = "Game Over!";
+      }
 
       for (let i = 0; i < self.grid.size; i++) {
         for (let j = 0; j < self.grid.size; j++) {
@@ -330,6 +370,13 @@ class Renderer {
           }
         }
       }
+
+      self.grid.removed_tiles.forEach(tile => {
+        if (tile.element) {
+          tile.element.remove();
+        }
+      });
+      self.grid.removed_tiles = [];
     })
   }
 
@@ -340,16 +387,18 @@ class Renderer {
   }
 
   add_tile(tile) {
-    var wrapper = document.createElement("div");
-    var inner = document.createElement("div");
+    if (tile.element == null) {
+      var wrapper = document.createElement("div");
+      var inner = document.createElement("div");
+      inner.classList.add("tile-inner");
+      wrapper.appendChild(inner);
+      this.tile_container.appendChild(wrapper);
+      tile.element = wrapper;
+    }
 
-    inner.classList.add("tile-inner");
-    inner.textContent = tile.value;
-    wrapper.appendChild(inner);
-
+    tile.element.querySelector('.tile-inner').textContent = tile.value;
     var classes = ["tile", "tile-" + tile.value, this.position_class(tile.cell)];
-    this.apply_classes(wrapper, classes);
-    this.tile_container.appendChild(wrapper);
+    this.apply_classes(tile.element, classes);
   }
 
   position_class(cell) {
@@ -365,7 +414,9 @@ class Game {
   constructor() {
     this.grid = new Grid(4);
     this.keyboard = new KeyboardManager();
-    this.renderer = new Renderer(this.grid);
+    this.renderer = new Renderer(this);
+    this.score = 0;
+    this.over = false;
   }
 
   static GAME_OVER = -1;
@@ -380,13 +431,16 @@ class Game {
   }
 
   move(dir) {
-    this.grid.move(dir);
-    this.renderer.render();
-    if (this.new_tile() == Game.GAME_OVER) {
-      this.keyboard.remove("move");
-      // TODO: render game over
+    let result = this.grid.move(dir);
+    if (result.moved) {
+      this.score += result.score;
+      this.renderer.render();
+      if (this.new_tile() == Game.GAME_OVER || !this.grid.has_moves()) {
+        this.over = true;
+        this.keyboard.remove("move");
+      }
+      this.renderer.render();
     }
-    this.renderer.render();
   }
 
   new_tile_pos() {
