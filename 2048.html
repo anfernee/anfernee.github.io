@@ -220,13 +220,23 @@
     width: 500px;
     margin: 0 auto;
   }
+  .score-container {
+    font-size: 24px;
+    font-weight: bold;
+    margin-top: 20px;
+    text-align: center;
+    background: #bbada0;
+    padding: 10px;
+    border-radius: 6px;
+    color: white;
+    width: 100px;
+    margin-left: auto;
+    margin-right: auto;
+  }
   .game-message {
     display: none;
     position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
+    top: 0; right: 0; bottom: 0; left: 0;
     background: rgba(238, 228, 218, 0.73);
     z-index: 100;
     flex-direction: column;
@@ -238,6 +248,9 @@
   .game-message p {
     font-size: 60px;
     font-weight: bold;
+    color: #776e65;
+  }
+  .game-container.game-over .game-message {
     height: 60px;
     line-height: 60px;
     margin: 0;
@@ -251,8 +264,9 @@
 
   <body>
     <div class="container">
-
+      <div class="score-container">0</div>
       <div class="game-container">
+        <div class="game-message"><p></p></div>
         <div class="grid-container">
           <div class="grid-row">
             <div class="grid-cell"></div>
