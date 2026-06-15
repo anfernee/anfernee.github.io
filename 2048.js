@@ -211,6 +211,9 @@ class Grid {
           cur = next_cur;
           moved = true;
         } else {
+          if (cur.cell.x != cell.x || cur.cell.y != cell.y) {
+            moved = true;
+          }
           this.assign(cur, cell);
           cur = next;
         }
@@ -385,7 +388,8 @@ class Game {
   }
 
   move(dir) {
-    this.grid.move(dir);
+    let moved = this.grid.move(dir);
+    if (!moved) return;
     this.renderer.render();
     if (this.new_tile() == Game.GAME_OVER) {
       this.keyboard.remove("move");
