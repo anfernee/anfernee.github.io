@@ -4,8 +4,8 @@
 // - Render transition
 // - No new tile if no tiles are moved
 
-Array.prototype.random = function () {
-  return this[Math.floor((Math.random()*this.length))];
+function getRandomItem(array) {
+  return array[Math.floor((Math.random()*array.length))];
 }
 
 class Cell {
@@ -350,6 +350,11 @@ class Renderer {
     this.tile_container = document.querySelector(".tile-container");
     this.game = game;
     this.grid = game.grid;
+    this.message_container = document.querySelector(".game-message");
+  }
+
+  game_over() {
+    this.message_container.classList.add("game-over");
   }
 
   render() {
@@ -444,11 +449,11 @@ class Game {
   }
 
   new_tile_pos() {
-    return this.grid.empty_tiles().random();
+    return getRandomItem(this.grid.empty_tiles());
   }
 
   new_tile_value() {
-    return [2, 4].random();
+    return getRandomItem([2, 4]);
   }
 
   new_tile() {

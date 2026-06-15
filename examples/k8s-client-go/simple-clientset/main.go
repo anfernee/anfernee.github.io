@@ -61,7 +61,7 @@ func main() {
 		panic(err.Error())
 	}
 	for {
-		pods, err := clientset.CoreV1().Pods("").List(context.TODO(), metav1.ListOptions{})
+		pods, err := clientset.CoreV1().Pods("").List(context.Background(), metav1.ListOptions{})
 		if err != nil {
 			panic(err.Error())
 		}
@@ -72,7 +72,7 @@ func main() {
 		// - And/or cast to StatusError and use its properties like e.g. ErrStatus.Message
 		namespace := "default"
 		pod := "example-xxxxx"
-		_, err = clientset.CoreV1().Pods(namespace).Get(context.TODO(), pod, metav1.GetOptions{})
+		_, err = clientset.CoreV1().Pods(namespace).Get(context.Background(), pod, metav1.GetOptions{})
 		if errors.IsNotFound(err) {
 			fmt.Printf("Pod %s in namespace %s not found\n", pod, namespace)
 		} else if statusError, isStatus := err.(*errors.StatusError); isStatus {

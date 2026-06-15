@@ -243,6 +243,7 @@
     align-items: center;
     justify-content: center;
     text-align: center;
+    border-radius: 6px;
   }
   .game-message p {
     font-size: 60px;
@@ -250,6 +251,12 @@
     color: #776e65;
   }
   .game-container.game-over .game-message {
+    height: 60px;
+    line-height: 60px;
+    margin: 0;
+    color: #776e65;
+  }
+  .game-message.game-over {
     display: flex;
   }
     </style>
@@ -287,6 +294,9 @@
           </div>
         </div>
         <div class="tile-container">
+        </div>
+        <div class="game-message">
+          <p>Game over!</p>
         </div>
       </div>
     </div>
